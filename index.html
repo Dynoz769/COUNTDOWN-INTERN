@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="ms">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Pro Countdown App</title>
+
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#0f172a">
+
+<style>
+body { margin:0; font-family:-apple-system; background:#0f172a; color:white;}
+.app { max-width:420px; margin:auto; }
+.header { padding:20px; font-weight:bold; }
+
+.card { background:#1e293b; margin:15px; padding:20px; border-radius:20px; }
+
+.circle { width:120px; height:120px; margin:auto; position:relative;}
+svg { transform:rotate(-90deg);}
+circle { fill:none; stroke-width:10;}
+.bg { stroke:#334155;}
+.progress { stroke:#22c55e; stroke-linecap:round; stroke-dasharray:314; stroke-dashoffset:314;}
+
+.percent-text {
+    position:absolute; top:35px; width:100%; text-align:center; font-weight:bold;
+}
+
+.calendar { display:grid; grid-template-columns:repeat(7,1fr); gap:5px;}
+.day { padding:8px; border-radius:8px; font-size:12px; text-align:center;}
+
+.work { background:#22c55e;}
+.weekend { background:#ef4444;}
+.holiday { background:#eab308; color:black;}
+.deadline { background:#b91c1c !important;}
+.today { border:2px solid white; box-shadow:0 0 10px #38bdf8;}
+
+.month-title { margin-top:10px; font-weight:bold;}
+</style>
+</head>
+
+<body>
+
+<div class="app">
+
+<div class="header">📱 Countdown App</div>
+
+<div class="card">
+<div class="circle">
+<svg width="120" height="120">
+<circle cx="60" cy="60" r="50" class="bg"/>
+<circle cx="60" cy="60" r="50" class="progress" id="progressCircle"/>
+</svg>
+<div class="percent-text" id="percentText">0%</div>
+</div>
+
+<h2 style="text-align:center" id="daysLeft">0</h2>
+<div style="text-align:center">Hari bekerja lagi</div>
+</div>
+
+<div class="card">
+<div id="calendar"></div>
+</div>
+
+</div>
+
+<script>
+const startDate=new Date("2026-04-15");
+const endDate=new Date("2026-07-28");
+
+const holidays=[
+"2026-05-01","2026-05-02","2026-05-27","2026-05-28","2026-06-01","2026-06-17"
+];
+
+function format(d){return d.toISOString().split('T')[0];}
+
+function isWorkingDay(d){
+let day=d.getDay(),str=format(d);
+return !(day===5||day===6||holidays.includes(str));
+}
+
+function totalDays(){
+let c=0,d=new Date(startDate);
+while(d<=endDate){ if(isWorkingDay(d))c++; d.setDate(d.getDate()+1);}
+return c;
+}
+
+function remainingDays(){
+let c=0,d=new Date();
+while(d<=endDate){ if(isWorkingDay(d))c++; d.setDate(d.getDate()+1);}
+return c;
+}
+
+const total=totalDays();
+
+function update(){
+let remain=remainingDays();
+let percent=( (total-remain)/total)*100;
+
+document.getElementById("daysLeft").innerText=remain;
+document.getElementById("percentText").innerText=percent.toFixed(1)+"%";
+
+let offset=314-(314*percent/100);
+document.getElementById("progressCircle").style.strokeDashoffset=offset;
+}
+
+setInterval(update,1000); update();
+
+function generateCalendar(){
+let cal=document.getElementById("calendar");
+let current=new Date(startDate);
+let today=format(new Date());
+
+let deadline=[];
+let temp=new Date(endDate);
+while(deadline.length<7){
+if(isWorkingDay(temp)) deadline.push(format(temp));
+temp.setDate(temp.getDate()-1);
+}
+
+let scrollTarget=null;
+
+while(current<=endDate){
+let m=current.getMonth(),y=current.getFullYear();
+let first=new Date(y,m,1),last=new Date(y,m+1,0);
+
+let monthDiv=document.createElement("div");
+
+let title=document.createElement("div");
+title.className="month-title";
+title.innerText=first.toLocaleString('ms-MY',{month:'long',year:'numeric'});
+monthDiv.appendChild(title);
+
+let grid=document.createElement("div");
+grid.className="calendar";
+
+for(let i=0;i<first.getDay();i++) grid.appendChild(document.createElement("div"));
+
+for(let d=1; d<=last.getDate(); d++){
+let date=new Date(y,m,d),str=format(date),day=date.getDay();
+let div=document.createElement("div"); div.className="day";
+
+if(deadline.includes(str)) div.classList.add("deadline");
+else if(holidays.includes(str)) div.classList.add("holiday");
+else if(day===5||day===6) div.classList.add("weekend");
+else div.classList.add("work");
+
+if(str===today){ div.classList.add("today"); scrollTarget=monthDiv; }
+
+div.innerText=d;
+grid.appendChild(div);
+}
+
+monthDiv.appendChild(grid);
+cal.appendChild(monthDiv);
+current=new Date(y,m+1,1);
+}
+
+if(scrollTarget){
+setTimeout(()=>scrollTarget.scrollIntoView({behavior:"smooth"}),300);
+}
+}
+
+generateCalendar();
+
+/* REGISTER SW */
+if ("serviceWorker" in navigator) {
+navigator.serviceWorker.register("sw.js");
+}
+</script>
+
+</body>
+</html>

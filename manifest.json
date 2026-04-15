@@ -1,0 +1,20 @@
+{
+  "name": "Pro Countdown App",
+  "short_name": "Countdown",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#0f172a",
+  "theme_color": "#0f172a",
+  "icons": [
+    {
+      "src": "7050b0d9-1c74-436c-b0da-c726e8efca03.jpeg",
+      "sizes": "192x192",
+      "type": "image/jpeg"
+    },
+    {
+      "src": "caaf99b3-2a2f-4497-861a-85510cfc104e.jpeg",
+      "sizes": "512x512",
+      "type": "image/jpeg"
+    }
+  ]
+}

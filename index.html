@@ -11,151 +11,152 @@
 
 <style>
 body {
-    margin:0;
-    font-family:-apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-    background:#0f172a;
-    color:white;
+    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    background: #0f172a;
+    color: white;
 }
 
 .app {
-    max-width:420px;
-    margin:auto;
+    max-width: 420px;
+    margin: auto;
 }
 
 .header {
-    padding:20px;
-    font-weight:bold;
-    font-size:20px;
+    padding: 20px;
+    font-weight: bold;
+    font-size: 20px;
 }
 
 .card {
-    background:#1e293b;
-    margin:15px;
-    padding:20px;
-    border-radius:20px;
+    background: #1e293b;
+    margin: 15px;
+    padding: 20px;
+    border-radius: 20px;
 }
 
 .circle {
-    width:120px;
-    height:120px;
-    margin:auto;
-    position:relative;
+    width: 120px;
+    height: 120px;
+    margin: auto;
+    position: relative;
 }
 
 svg {
-    transform:rotate(-90deg);
+    transform: rotate(-90deg);
 }
 
 circle {
-    fill:none;
-    stroke-width:10;
+    fill: none;
+    stroke-width: 10;
 }
 
 .bg {
-    stroke:#334155;
+    stroke: #334155;
 }
 
 .progress {
-    stroke:#22c55e;
-    stroke-linecap:round;
-    stroke-dasharray:314;
-    stroke-dashoffset:314;
+    stroke: #22c55e;
+    stroke-linecap: round;
+    stroke-dasharray: 314;
+    stroke-dashoffset: 314;
 }
 
 .percent-text {
-    position:absolute;
-    top:35px;
-    width:100%;
-    text-align:center;
-    font-weight:bold;
+    position: absolute;
+    top: 35px;
+    width: 100%;
+    text-align: center;
+    font-weight: bold;
 }
 
 .calendar {
-    display:grid;
-    grid-template-columns:repeat(7,1fr);
-    gap:5px;
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 5px;
 }
 
 .day {
-    padding:6px 3px;
-    border-radius:8px;
-    font-size:10px;
-    text-align:center;
-    min-height:48px;
-    box-sizing:border-box;
+    padding: 6px 2px;
+    border-radius: 8px;
+    text-align: center;
+    min-height: 58px;
+    box-sizing: border-box;
+    overflow: hidden;
 }
 
 .day strong {
-    display:block;
-    font-size:14px;
-    line-height:17px;
+    display: block;
+    font-size: 14px;
+    line-height: 18px;
 }
 
 .day span {
-    display:block;
-    font-size:8px;
-    opacity:0.95;
-    line-height:11px;
+    display: block;
+    font-size: 8px;
+    line-height: 11px;
+    margin-top: 2px;
+    opacity: 0.95;
 }
 
 .work {
-    background:#22c55e;
+    background: #22c55e;
 }
 
 .weekend {
-    background:#ef4444;
+    background: #ef4444;
 }
 
 .holiday {
-    background:#eab308;
-    color:black;
+    background: #eab308;
+    color: black;
 }
 
 .deadline {
-    background:#b91c1c !important;
-    color:white;
+    background: #b91c1c !important;
+    color: white;
 }
 
 .today {
-    border:2px solid white;
-    box-shadow:0 0 10px #38bdf8;
+    border: 2px solid white;
+    box-shadow: 0 0 10px #38bdf8;
 }
 
 .month-title {
-    margin-top:18px;
-    margin-bottom:10px;
-    font-weight:bold;
-    font-size:16px;
+    margin-top: 18px;
+    margin-bottom: 10px;
+    font-weight: bold;
+    font-size: 16px;
 }
 
 .week-header {
-    display:grid;
-    grid-template-columns:repeat(7,1fr);
-    gap:5px;
-    margin-bottom:5px;
-    font-size:10px;
-    text-align:center;
-    opacity:0.8;
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 5px;
+    margin-bottom: 5px;
+    font-size: 10px;
+    text-align: center;
+    opacity: 0.8;
 }
 
 .legend {
-    display:grid;
-    grid-template-columns:repeat(2,1fr);
-    gap:8px;
-    font-size:12px;
-    margin-top:15px;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 8px;
+    font-size: 12px;
+    margin-top: 15px;
 }
 
 .legend div {
-    display:flex;
-    align-items:center;
-    gap:6px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
 }
 
 .box {
-    width:14px;
-    height:14px;
-    border-radius:4px;
+    width: 14px;
+    height: 14px;
+    border-radius: 4px;
 }
 </style>
 </head>
@@ -169,8 +170,8 @@ circle {
     <div class="card">
         <div class="circle">
             <svg width="120" height="120">
-                <circle cx="60" cy="60" r="50" class="bg"/>
-                <circle cx="60" cy="60" r="50" class="progress" id="progressCircle"/>
+                <circle cx="60" cy="60" r="50" class="bg"></circle>
+                <circle cx="60" cy="60" r="50" class="progress" id="progressCircle"></circle>
             </svg>
             <div class="percent-text" id="percentText">0%</div>
         </div>
@@ -193,8 +194,8 @@ circle {
 </div>
 
 <script>
-const startDate = new Date("2026-04-15");
-const endDate = new Date("2026-07-28");
+const startDate = new Date(2026, 3, 15);
+const endDate = new Date(2026, 6, 28);
 
 const holidays = [
     "2026-05-01",
@@ -240,31 +241,29 @@ function isWorkingDay(d) {
 }
 
 function totalDays() {
-    let c = 0;
+    let count = 0;
     let d = new Date(startDate);
 
-    d.setHours(0, 0, 0, 0);
-
     while (d <= endDate) {
-        if (isWorkingDay(d)) c++;
+        if (isWorkingDay(d)) count++;
         d.setDate(d.getDate() + 1);
     }
 
-    return c;
+    return count;
 }
 
 function remainingDays() {
-    let c = 0;
+    let count = 0;
     let d = new Date();
 
     d.setHours(0, 0, 0, 0);
 
     while (d <= endDate) {
-        if (isWorkingDay(d)) c++;
+        if (isWorkingDay(d)) count++;
         d.setDate(d.getDate() + 1);
     }
 
-    return c;
+    return count;
 }
 
 const total = totalDays();
@@ -288,6 +287,8 @@ update();
 
 function generateCalendar() {
     let cal = document.getElementById("calendar");
+    cal.innerHTML = "";
+
     let current = new Date(startDate);
     let today = format(new Date());
 
@@ -295,18 +296,20 @@ function generateCalendar() {
     let temp = new Date(endDate);
 
     while (deadline.length < 7) {
-        if (isWorkingDay(temp)) deadline.push(format(temp));
+        if (isWorkingDay(temp)) {
+            deadline.push(format(temp));
+        }
         temp.setDate(temp.getDate() - 1);
     }
 
     let scrollTarget = null;
 
     while (current <= endDate) {
-        let m = current.getMonth();
-        let y = current.getFullYear();
+        let month = current.getMonth();
+        let year = current.getFullYear();
 
-        let first = new Date(y, m, 1);
-        let last = new Date(y, m + 1, 0);
+        let first = new Date(year, month, 1);
+        let last = new Date(year, month + 1, 0);
 
         let monthDiv = document.createElement("div");
 
@@ -338,7 +341,7 @@ function generateCalendar() {
         }
 
         for (let d = 1; d <= last.getDate(); d++) {
-            let date = new Date(y, m, d);
+            let date = new Date(year, month, d);
             let str = format(date);
             let day = date.getDay();
 
@@ -371,12 +374,15 @@ function generateCalendar() {
         monthDiv.appendChild(grid);
         cal.appendChild(monthDiv);
 
-        current = new Date(y, m + 1, 1);
+        current = new Date(year, month + 1, 1);
     }
 
     if (scrollTarget) {
         setTimeout(() => {
-            scrollTarget.scrollIntoView({ behavior:"smooth" });
+            scrollTarget.scrollIntoView({
+                behavior: "smooth",
+                block: "start"
+            });
         }, 300);
     }
 }

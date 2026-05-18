@@ -10,32 +10,153 @@
 <meta name="theme-color" content="#0f172a">
 
 <style>
-body { margin:0; font-family:-apple-system; background:#0f172a; color:white;}
-.app { max-width:420px; margin:auto; }
-.header { padding:20px; font-weight:bold; }
-
-.card { background:#1e293b; margin:15px; padding:20px; border-radius:20px; }
-
-.circle { width:120px; height:120px; margin:auto; position:relative;}
-svg { transform:rotate(-90deg);}
-circle { fill:none; stroke-width:10;}
-.bg { stroke:#334155;}
-.progress { stroke:#22c55e; stroke-linecap:round; stroke-dasharray:314; stroke-dashoffset:314;}
-
-.percent-text {
-    position:absolute; top:35px; width:100%; text-align:center; font-weight:bold;
+body {
+    margin:0;
+    font-family:-apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    background:#0f172a;
+    color:white;
 }
 
-.calendar { display:grid; grid-template-columns:repeat(7,1fr); gap:5px;}
-.day { padding:8px; border-radius:8px; font-size:12px; text-align:center;}
+.app {
+    max-width:420px;
+    margin:auto;
+}
 
-.work { background:#22c55e;}
-.weekend { background:#ef4444;}
-.holiday { background:#eab308; color:black;}
-.deadline { background:#b91c1c !important;}
-.today { border:2px solid white; box-shadow:0 0 10px #38bdf8;}
+.header {
+    padding:20px;
+    font-weight:bold;
+    font-size:20px;
+}
 
-.month-title { margin-top:10px; font-weight:bold;}
+.card {
+    background:#1e293b;
+    margin:15px;
+    padding:20px;
+    border-radius:20px;
+}
+
+.circle {
+    width:120px;
+    height:120px;
+    margin:auto;
+    position:relative;
+}
+
+svg {
+    transform:rotate(-90deg);
+}
+
+circle {
+    fill:none;
+    stroke-width:10;
+}
+
+.bg {
+    stroke:#334155;
+}
+
+.progress {
+    stroke:#22c55e;
+    stroke-linecap:round;
+    stroke-dasharray:314;
+    stroke-dashoffset:314;
+}
+
+.percent-text {
+    position:absolute;
+    top:35px;
+    width:100%;
+    text-align:center;
+    font-weight:bold;
+}
+
+.calendar {
+    display:grid;
+    grid-template-columns:repeat(7,1fr);
+    gap:5px;
+}
+
+.day {
+    padding:7px 4px;
+    border-radius:8px;
+    font-size:11px;
+    text-align:center;
+    min-height:42px;
+    box-sizing:border-box;
+}
+
+.day strong {
+    display:block;
+    font-size:13px;
+    line-height:16px;
+}
+
+.day span {
+    display:block;
+    font-size:9px;
+    opacity:0.9;
+    line-height:12px;
+}
+
+.work {
+    background:#22c55e;
+}
+
+.weekend {
+    background:#ef4444;
+}
+
+.holiday {
+    background:#eab308;
+    color:black;
+}
+
+.deadline {
+    background:#b91c1c !important;
+    color:white;
+}
+
+.today {
+    border:2px solid white;
+    box-shadow:0 0 10px #38bdf8;
+}
+
+.month-title {
+    margin-top:18px;
+    margin-bottom:10px;
+    font-weight:bold;
+    font-size:16px;
+}
+
+.legend {
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:8px;
+    font-size:12px;
+    margin-top:15px;
+}
+
+.legend div {
+    display:flex;
+    align-items:center;
+    gap:6px;
+}
+
+.box {
+    width:14px;
+    height:14px;
+    border-radius:4px;
+}
+
+.week-header {
+    display:grid;
+    grid-template-columns:repeat(7,1fr);
+    gap:5px;
+    margin-bottom:5px;
+    font-size:10px;
+    text-align:center;
+    opacity:0.8;
+}
 </style>
 </head>
 
@@ -43,129 +164,208 @@ circle { fill:none; stroke-width:10;}
 
 <div class="app">
 
-<div class="header">📱 Countdown App</div>
+    <div class="header">📱 Countdown App</div>
 
-<div class="card">
-<div class="circle">
-<svg width="120" height="120">
-<circle cx="60" cy="60" r="50" class="bg"/>
-<circle cx="60" cy="60" r="50" class="progress" id="progressCircle"/>
-</svg>
-<div class="percent-text" id="percentText">0%</div>
-</div>
+    <div class="card">
+        <div class="circle">
+            <svg width="120" height="120">
+                <circle cx="60" cy="60" r="50" class="bg"/>
+                <circle cx="60" cy="60" r="50" class="progress" id="progressCircle"/>
+            </svg>
+            <div class="percent-text" id="percentText">0%</div>
+        </div>
 
-<h2 style="text-align:center" id="daysLeft">0</h2>
-<div style="text-align:center">Hari bekerja lagi</div>
-</div>
+        <h2 style="text-align:center" id="daysLeft">0</h2>
+        <div style="text-align:center">Hari bekerja lagi</div>
 
-<div class="card">
-<div id="calendar"></div>
-</div>
+        <div class="legend">
+            <div><span class="box" style="background:#22c55e;"></span> Hari kerja</div>
+            <div><span class="box" style="background:#ef4444;"></span> Jumaat/Sabtu</div>
+            <div><span class="box" style="background:#eab308;"></span> Cuti umum</div>
+            <div><span class="box" style="background:#b91c1c;"></span> Deadline</div>
+        </div>
+    </div>
+
+    <div class="card">
+        <div id="calendar"></div>
+    </div>
 
 </div>
 
 <script>
-const startDate=new Date("2026-04-15");
-const endDate=new Date("2026-07-28");
+const startDate = new Date("2026-04-15");
+const endDate = new Date("2026-07-28");
 
-const holidays=[
-"2026-05-01","2026-05-02","2026-05-27","2026-05-28","2026-06-01","2026-06-17"
+const holidays = [
+    "2026-05-01",
+    "2026-05-02",
+    "2026-05-27",
+    "2026-05-28",
+    "2026-06-01",
+    "2026-06-17"
 ];
 
-function format(d){return d.toISOString().split('T')[0];}
+const dayNames = ["Ahad", "Isnin", "Selasa", "Rabu", "Khamis", "Jumaat", "Sabtu"];
+const shortDayNames = ["Ahd", "Isn", "Sel", "Rab", "Kha", "Jum", "Sab"];
 
-function isWorkingDay(d){
-let day=d.getDay(),str=format(d);
-return !(day===5||day===6||holidays.includes(str));
+function format(d) {
+    let year = d.getFullYear();
+    let month = String(d.getMonth() + 1).padStart(2, "0");
+    let day = String(d.getDate()).padStart(2, "0");
+    return `${year}-${month}-${day}`;
 }
 
-function totalDays(){
-let c=0,d=new Date(startDate);
-while(d<=endDate){ if(isWorkingDay(d))c++; d.setDate(d.getDate()+1);}
-return c;
+function isWorkingDay(d) {
+    let day = d.getDay();
+    let str = format(d);
+
+    return !(day === 5 || day === 6 || holidays.includes(str));
 }
 
-function remainingDays(){
-let c=0,d=new Date();
-while(d<=endDate){ if(isWorkingDay(d))c++; d.setDate(d.getDate()+1);}
-return c;
+function totalDays() {
+    let c = 0;
+    let d = new Date(startDate);
+
+    while (d <= endDate) {
+        if (isWorkingDay(d)) c++;
+        d.setDate(d.getDate() + 1);
+    }
+
+    return c;
 }
 
-const total=totalDays();
+function remainingDays() {
+    let c = 0;
+    let d = new Date();
 
-function update(){
-let remain=remainingDays();
-let percent=( (total-remain)/total)*100;
+    d.setHours(0, 0, 0, 0);
 
-document.getElementById("daysLeft").innerText=remain;
-document.getElementById("percentText").innerText=percent.toFixed(1)+"%";
+    while (d <= endDate) {
+        if (isWorkingDay(d)) c++;
+        d.setDate(d.getDate() + 1);
+    }
 
-let offset=314-(314*percent/100);
-document.getElementById("progressCircle").style.strokeDashoffset=offset;
+    return c;
 }
 
-setInterval(update,1000); update();
+const total = totalDays();
 
-function generateCalendar(){
-let cal=document.getElementById("calendar");
-let current=new Date(startDate);
-let today=format(new Date());
+function update() {
+    let remain = remainingDays();
+    let percent = ((total - remain) / total) * 100;
 
-let deadline=[];
-let temp=new Date(endDate);
-while(deadline.length<7){
-if(isWorkingDay(temp)) deadline.push(format(temp));
-temp.setDate(temp.getDate()-1);
+    if (percent < 0) percent = 0;
+    if (percent > 100) percent = 100;
+
+    document.getElementById("daysLeft").innerText = remain;
+    document.getElementById("percentText").innerText = percent.toFixed(1) + "%";
+
+    let offset = 314 - (314 * percent / 100);
+    document.getElementById("progressCircle").style.strokeDashoffset = offset;
 }
 
-let scrollTarget=null;
+setInterval(update, 1000);
+update();
 
-while(current<=endDate){
-let m=current.getMonth(),y=current.getFullYear();
-let first=new Date(y,m,1),last=new Date(y,m+1,0);
+function generateCalendar() {
+    let cal = document.getElementById("calendar");
+    let current = new Date(startDate);
+    let today = format(new Date());
 
-let monthDiv=document.createElement("div");
+    let deadline = [];
+    let temp = new Date(endDate);
 
-let title=document.createElement("div");
-title.className="month-title";
-title.innerText=first.toLocaleString('ms-MY',{month:'long',year:'numeric'});
-monthDiv.appendChild(title);
+    while (deadline.length < 7) {
+        if (isWorkingDay(temp)) deadline.push(format(temp));
+        temp.setDate(temp.getDate() - 1);
+    }
 
-let grid=document.createElement("div");
-grid.className="calendar";
+    let scrollTarget = null;
 
-for(let i=0;i<first.getDay();i++) grid.appendChild(document.createElement("div"));
+    while (current <= endDate) {
+        let m = current.getMonth();
+        let y = current.getFullYear();
 
-for(let d=1; d<=last.getDate(); d++){
-let date=new Date(y,m,d),str=format(date),day=date.getDay();
-let div=document.createElement("div"); div.className="day";
+        let first = new Date(y, m, 1);
+        let last = new Date(y, m + 1, 0);
 
-if(deadline.includes(str)) div.classList.add("deadline");
-else if(holidays.includes(str)) div.classList.add("holiday");
-else if(day===5||day===6) div.classList.add("weekend");
-else div.classList.add("work");
+        let monthDiv = document.createElement("div");
 
-if(str===today){ div.classList.add("today"); scrollTarget=monthDiv; }
+        let title = document.createElement("div");
+        title.className = "month-title";
+        title.innerText = first.toLocaleString("ms-MY", {
+            month: "long",
+            year: "numeric"
+        });
 
-div.innerText=d;
-grid.appendChild(div);
-}
+        monthDiv.appendChild(title);
 
-monthDiv.appendChild(grid);
-cal.appendChild(monthDiv);
-current=new Date(y,m+1,1);
-}
+        let weekHeader = document.createElement("div");
+        weekHeader.className = "week-header";
 
-if(scrollTarget){
-setTimeout(()=>scrollTarget.scrollIntoView({behavior:"smooth"}),300);
-}
+        shortDayNames.forEach(name => {
+            let div = document.createElement("div");
+            div.innerText = name;
+            weekHeader.appendChild(div);
+        });
+
+        monthDiv.appendChild(weekHeader);
+
+        let grid = document.createElement("div");
+        grid.className = "calendar";
+
+        for (let i = 0; i < first.getDay(); i++) {
+            grid.appendChild(document.createElement("div"));
+        }
+
+        for (let d = 1; d <= last.getDate(); d++) {
+            let date = new Date(y, m, d);
+            let str = format(date);
+            let day = date.getDay();
+
+            let div = document.createElement("div");
+            div.className = "day";
+
+            if (deadline.includes(str)) {
+                div.classList.add("deadline");
+            } else if (holidays.includes(str)) {
+                div.classList.add("holiday");
+            } else if (day === 5 || day === 6) {
+                div.classList.add("weekend");
+            } else {
+                div.classList.add("work");
+            }
+
+            if (str === today) {
+                div.classList.add("today");
+                scrollTarget = monthDiv;
+            }
+
+            div.innerHTML = `
+                <strong>${d}</strong>
+                <span>${dayNames[day]}</span>
+            `;
+
+            grid.appendChild(div);
+        }
+
+        monthDiv.appendChild(grid);
+        cal.appendChild(monthDiv);
+
+        current = new Date(y, m + 1, 1);
+    }
+
+    if (scrollTarget) {
+        setTimeout(() => {
+            scrollTarget.scrollIntoView({ behavior:"smooth" });
+        }, 300);
+    }
 }
 
 generateCalendar();
 
-/* REGISTER SW */
 if ("serviceWorker" in navigator) {
-navigator.serviceWorker.register("sw.js");
+    navigator.serviceWorker.register("sw.js");
 }
 </script>
 

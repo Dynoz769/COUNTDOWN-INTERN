@@ -77,25 +77,25 @@ circle {
 }
 
 .day {
-    padding:7px 4px;
+    padding:6px 3px;
     border-radius:8px;
-    font-size:11px;
+    font-size:10px;
     text-align:center;
-    min-height:42px;
+    min-height:48px;
     box-sizing:border-box;
 }
 
 .day strong {
     display:block;
-    font-size:13px;
-    line-height:16px;
+    font-size:14px;
+    line-height:17px;
 }
 
 .day span {
     display:block;
-    font-size:9px;
-    opacity:0.9;
-    line-height:12px;
+    font-size:8px;
+    opacity:0.95;
+    line-height:11px;
 }
 
 .work {
@@ -128,6 +128,16 @@ circle {
     font-size:16px;
 }
 
+.week-header {
+    display:grid;
+    grid-template-columns:repeat(7,1fr);
+    gap:5px;
+    margin-bottom:5px;
+    font-size:10px;
+    text-align:center;
+    opacity:0.8;
+}
+
 .legend {
     display:grid;
     grid-template-columns:repeat(2,1fr);
@@ -146,16 +156,6 @@ circle {
     width:14px;
     height:14px;
     border-radius:4px;
-}
-
-.week-header {
-    display:grid;
-    grid-template-columns:repeat(7,1fr);
-    gap:5px;
-    margin-bottom:5px;
-    font-size:10px;
-    text-align:center;
-    opacity:0.8;
 }
 </style>
 </head>
@@ -205,8 +205,25 @@ const holidays = [
     "2026-06-17"
 ];
 
-const dayNames = ["Ahad", "Isnin", "Selasa", "Rabu", "Khamis", "Jumaat", "Sabtu"];
-const shortDayNames = ["Ahd", "Isn", "Sel", "Rab", "Kha", "Jum", "Sab"];
+const dayNames = [
+    "Ahad",
+    "Isnin",
+    "Selasa",
+    "Rabu",
+    "Khamis",
+    "Jumaat",
+    "Sabtu"
+];
+
+const shortDayNames = [
+    "Ahd",
+    "Isn",
+    "Sel",
+    "Rab",
+    "Kha",
+    "Jum",
+    "Sab"
+];
 
 function format(d) {
     let year = d.getFullYear();
@@ -225,6 +242,8 @@ function isWorkingDay(d) {
 function totalDays() {
     let c = 0;
     let d = new Date(startDate);
+
+    d.setHours(0, 0, 0, 0);
 
     while (d <= endDate) {
         if (isWorkingDay(d)) c++;
@@ -343,7 +362,7 @@ function generateCalendar() {
 
             div.innerHTML = `
                 <strong>${d}</strong>
-                <span>${dayNames[day]}</span>
+                <span>Hari ${dayNames[day]}</span>
             `;
 
             grid.appendChild(div);
